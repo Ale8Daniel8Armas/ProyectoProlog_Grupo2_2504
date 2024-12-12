@@ -1,0 +1,258 @@
+% --- Información sobre masajes ---
+masaje(1, 'Relajante', 60, 50, 'Relajacion').
+masaje(2, 'Descontracturante', 90, 70, 'Terapia').
+masaje(3, 'Piedras Calientes', 60, 60, 'Terapia').
+masaje(4, 'Reflexología', 45, 40, 'Relajacion').
+masaje(5, 'Aromaterapia', 60, 55, 'Relajacion').
+masaje(6, 'Deportivo', 90, 80, 'Terapia').
+masaje(7, 'Drenaje Linfático', 60, 65, 'Terapia').
+masaje(8, 'Masaje Facial', 45, 45, 'Estetico').
+masaje(9, 'Masaje con Chocolate', 75, 85, 'Estetico').
+masaje(10, 'Masaje Hawaiano', 60, 75, 'Relajacion').
+masaje(11, 'Masaje de Piedras Frías', 60, 65, 'Terapia').
+masaje(12, 'Masaje Anticelulítico', 60, 70, 'Estetico').
+masaje(13, 'Masaje Shiatsu', 90, 90, 'Terapia').
+masaje(14, 'Masaje de Ventosas', 60, 80, 'Terapia').
+masaje(15, 'Masaje Preparto', 60, 50, 'Relajacion').
+
+% --- Información sobre terapeutas ---
+terapeuta(1, 'Laura', femenino, 5, [1, 2, 5, 10, 14]).
+terapeuta(2, 'Carlos', masculino, 8, [2, 3, 6, 11, 13]).
+terapeuta(3, 'Ana', femenino, 4, [1, 4, 7, 8, 9]).
+terapeuta(4, 'Miguel', masculino, 6, [3, 5, 6, 10, 14]).
+terapeuta(5, 'Sofía', femenino, 7, [2, 4, 7, 12, 13]).
+terapeuta(6, 'Isabel', femenino, 9, [1, 3, 8, 15, 7]).
+terapeuta(7, 'Luis', masculino, 3, [4, 6, 12, 14, 5]).
+terapeuta(8, 'Raúl', masculino, 5, [7, 10, 11, 15, 9]).
+terapeuta(9, 'Paola', femenino, 10, [1, 2, 3, 6, 9]).
+terapeuta(10, 'Juan', masculino, 7, [5, 8, 12, 4, 13]).
+
+% --- Información sobre clientes ---
+cliente(1, 'María', 28, femenino, [1, 5, 8]).
+cliente(2, 'Javier', 35, masculino, [2, 6, 3]).
+cliente(3, 'Lucía', 42, femenino, [3, 7, 4]).
+cliente(4, 'Pedro', 30, masculino, [1, 6, 5, 10]).
+cliente(5, 'Sandra', 50, femenino, [2, 4, 7]).
+cliente(6, 'Antonio', 29, masculino, [4, 5, 11]).
+cliente(7, 'Sofía', 37, femenino, [3, 7, 12]).
+cliente(8, 'Ricardo', 32, masculino, [6, 10, 13]).
+cliente(9, 'Carmen', 41, femenino, [7, 2, 9]).
+cliente(10, 'Esteban', 25, masculino, [8, 14, 12]).
+
+% --- Horarios de terapeutas ---
+horario(1, 'Lunes', 9, 17).
+horario(1, 'Miércoles', 9, 15).
+horario(1, 'Viernes', 10, 14).
+horario(2, 'Martes', 10, 18).
+horario(2, 'Jueves', 9, 13).
+horario(3, 'Miércoles', 11, 19).
+horario(3, 'Viernes', 9, 17).
+horario(4, 'Lunes', 9, 17).
+horario(4, 'Martes', 10, 14).
+horario(5, 'Domingo', 9, 16).
+horario(5, 'Sábado', 9, 18).
+horario(6, 'Lunes', 8, 16).
+horario(6, 'Jueves', 11, 18).
+horario(7, 'Martes', 9, 15).
+horario(7, 'Jueves', 9, 17).
+horario(8, 'Viernes', 12, 18).
+horario(8, 'Sábado', 10, 16).
+horario(9, 'Domingo', 10, 15).
+horario(9, 'Lunes', 9, 17).
+horario(10, 'Martes', 9, 15).
+horario(10, 'Jueves', 10, 16).
+
+% --- Registro de masajes realizados a los clientes ---
+% registro_masaje(ClienteID, MasajeID, TerapeutaID, Dia, Hora).
+registro_masaje(1, 1, 1, 'Lunes', 10).
+registro_masaje(2, 2, 3, 'Martes', 12).
+registro_masaje(3, 3, 2, 'Miércoles', 9).
+registro_masaje(4, 4, 5, 'Jueves', 15).
+registro_masaje(5, 5, 4, 'Viernes', 11).
+registro_masaje(6, 6, 3, 'Lunes', 14).
+registro_masaje(7, 7, 6, 'Martes', 9).
+registro_masaje(8, 8, 9, 'Miércoles', 16).
+registro_masaje(9, 9, 7, 'Jueves', 13).
+registro_masaje(10, 10, 8, 'Viernes', 12).
+registro_masaje(1, 11, 1, 'Lunes', 17).
+registro_masaje(2, 12, 5, 'Martes', 10).
+registro_masaje(3, 13, 4, 'Miércoles', 11).
+registro_masaje(4, 14, 6, 'Jueves', 16).
+registro_masaje(5, 15, 7, 'Viernes', 14).
+
+
+% --- Reglas para recomendar masajes ---
+recomendar_masajes(ClienteID, Recomendaciones) :-
+    cliente(ClienteID, _, _, _, Preferencias),
+    findall(Nombre, (
+        member(MasajeID, Preferencias),
+        masaje(MasajeID, Nombre, _, _, _)
+    ), Recomendaciones).
+
+% Buscar masajes por tipo
+buscar_masajes_por_tipo(Tipo, Masajes) :-
+    findall(Nombre, masaje(_, Nombre, _, _, Tipo), Masajes).
+
+% Buscar terapeutas disponibles para un tipo de masaje
+buscar_terapeutas_por_tipo(Tipo, Terapeutas) :-
+    findall(Nombre, (
+        terapeuta(ID, Nombre, _, _, Masajes),
+        masaje(MasajeID, _, _, _, Tipo),
+        member(MasajeID, Masajes)
+    ), Terapeutas).
+
+% Consultar disponibilidad de un terapeuta en un día específico
+disponibilidad_terapeuta(TerapeutaID, Dia, Hora, Disponible) :-
+    horario(TerapeutaID, Dia, HoraInicio, HoraFin),
+    (Hora >= HoraInicio, Hora =< HoraFin -> Disponible = 'Sí'; Disponible = 'No').
+
+% Calcular el costo total de una sesión múltiple
+calcular_costo_total(MasajesIDs, CostoTotal) :-
+    findall(Precio, (
+        member(ID, MasajesIDs),
+        masaje(ID, _, _, Precio, _)
+    ), Precios),
+    sum_list(Precios, CostoTotal).
+
+% Reglas adicionales para la gestión de reservas y horarios
+% Reservar un masaje
+reservar_masaje(ClienteID, MasajeID, TerapeutaID, Dia, Hora) :-
+    cliente(ClienteID, NombreCliente, _, _, _),
+    masaje(MasajeID, NombreMasaje, Duracion, Precio, _),
+    terapeuta(TerapeutaID, NombreTerapeuta, _, _, _),
+    disponibilidad_terapeuta(TerapeutaID, Dia, Hora, 'Sí'),
+    format('Reserva confirmada para ~w: ~w con el terapeuta ~w el ~w a las ~w horas. Duración: ~w minutos. Precio: ~w€.\n',
+           [NombreCliente, NombreMasaje, NombreTerapeuta, Dia, Hora, Duracion, Precio]).
+
+% Buscar disponibilidad de un terapeuta en toda la semana
+disponibilidad_semanal(TerapeutaID) :-
+    findall((Dia, Hora), horario(TerapeutaID, Dia, HoraInicio, HoraFin), Horarios),
+    format('Horarios disponibles para el terapeuta ~w: ~w\n', [TerapeutaID, Horarios]).
+
+% Consultar todos los masajes
+todos_los_masajes :-
+    findall(Nombre, masaje(_, Nombre, _, _, _), Masajes),
+    format('Masajes disponibles: ~w\n', [Masajes]).
+
+% Consultar todos los terapeutas
+todos_los_terapeutas :-
+    findall(Nombre, terapeuta(_, Nombre, _, _, _), Terapeutas),
+    format('Terapeutas disponibles: ~w\n', [Terapeutas]).
+
+% Consultar todas las reservas de un cliente
+todas_las_reservas_cliente(ClienteID) :-
+    findall((MasajeID, TerapeutaID, Dia, Hora), (
+        reservar_masaje(ClienteID, MasajeID, TerapeutaID, Dia, Hora)
+
+% --- Estadísticas de masajes realizados ---
+% Número de masajes realizados por cliente
+numero_masajes_realizados(ClienteID, Numero) :-
+    findall(MasajeID, registro_masaje(ClienteID, MasajeID, _, _, _), Masajes),
+    length(Masajes, Numero).
+
+% Número de masajes realizados por terapeuta
+numero_masajes_por_terapeuta(TerapeutaID, Numero) :-
+    findall(MasajeID, registro_masaje(_, MasajeID, TerapeutaID, _, _), Masajes),
+    length(Masajes, Numero).
+
+% Costo total gastado por un cliente
+gasto_total_cliente(ClienteID, GastoTotal) :-
+    findall(Precio, (
+        registro_masaje(ClienteID, MasajeID, _, _, _),
+        masaje(MasajeID, _, _, Precio, _)
+    ), Precios),
+    sum_list(Precios, GastoTotal).
+
+% Promedio de precios de los masajes realizados por un cliente
+promedio_precio_cliente(ClienteID, Promedio) :-
+    findall(Precio, (
+        registro_masaje(ClienteID, MasajeID, _, _, _),
+        masaje(MasajeID, _, _, Precio, _)
+    ), Precios),
+    length(Precios, N),
+    sum_list(Precios, Suma),
+    (N > 0 -> Promedio is Suma / N; Promedio is 0).
+
+% Masajes más populares (por número de veces realizados)
+masajes_mas_populares(MasajesPopulares) :-
+    findall(MasajeID, registro_masaje(_, MasajeID, _, _, _), TodosLosMasajes),
+    listar_frecuencia(TodosLosMasajes, Frecuencias),
+    sort(2, @>=, Frecuencias, Ordenados),
+    obtener_masajes(Ordenados, MasajesPopulares).
+
+listar_frecuencia(Lista, Frecuencias) :-
+    setof(X, member(X, Lista), ListaSinRepetir),
+    listar_frecuencia_aux(ListaSinRepetir, Lista, Frecuencias).
+
+listar_frecuencia_aux([], _, []).
+listar_frecuencia_aux([X|Xs], Lista, [(X, Count)|Rest]) :-
+    count_occurrences(X, Lista, Count),
+    listar_frecuencia_aux(Xs, Lista, Rest).
+
+count_occurrences(_, [], 0).
+count_occurrences(X, [X|Xs], Count) :-
+    count_occurrences(X, Xs, Rest),
+    Count is Rest + 1.
+count_occurrences(X, [Y|Xs], Count) :-
+    X \= Y,
+    count_occurrences(X, Xs, Count).
+
+obtener_masajes([], []).
+obtener_masajes([(MasajeID, _)|Rest], [MasajeNombre|MasajesRest]) :-
+    masaje(MasajeID, MasajeNombre, _, _, _),
+    obtener_masajes(Rest, MasajesRest).
+
+% --- Estadísticas globales del spa ---
+% Total de ingresos generados
+ingresos_totales(Ingresos) :-
+    findall(Precio, (
+        registro_masaje(_, MasajeID, _, _, _),
+        masaje(MasajeID, _, _, Precio, _)
+    ), Precios),
+    sum_list(Precios, Ingresos).
+
+% Promedio de precio por masaje
+promedio_precio_masajes(Promedio) :-
+    findall(Precio, masaje(_, _, _, Precio, _), Precios),
+    length(Precios, N),
+    sum_list(Precios, Suma),
+    (N > 0 -> Promedio is Suma / N; Promedio is 0).
+
+% Cantidad de masajes realizados en un día específico
+cantidad_masajes_por_dia(Dia, Cantidad) :-
+    findall(_, registro_masaje(_, _, _, Dia, _), Masajes),
+    length(Masajes, Cantidad).
+
+% --- Consultas y reglas adicionales ---
+% Ver todos los masajes realizados por un cliente
+ver_masajes_realizados_cliente(ClienteID) :-
+    findall((MasajeID, TerapeutaID, Dia, Hora), registro_masaje(ClienteID, MasajeID, TerapeutaID, Dia, Hora), Masajes),
+    format('Masajes realizados por el cliente ~w: ~w\n', [ClienteID, Masajes]).
+
+% Ver el historial completo de un terapeuta
+ver_historial_terapeuta(TerapeutaID) :-
+    findall((ClienteID, MasajeID, Dia, Hora), registro_masaje(ClienteID, MasajeID, TerapeutaID, Dia, Hora), Historial),
+    format('Historial de masajes del terapeuta ~w: ~w\n', [TerapeutaID, Historial]).
+
+% Ver todas las reservas realizadas
+ver_reservas_totales :-
+    findall((ClienteID, MasajeID, TerapeutaID, Dia, Hora), registro_masaje(ClienteID, MasajeID, TerapeutaID, Dia, Hora), Reservas),
+    format('Todas las reservas realizadas: ~w\n', [Reservas]).
+
+% --- Consultas adicionales para expansión ---
+% Ver todos los masajes de un tipo específico
+ver_masajes_por_tipo(Tipo) :-
+    findall(MasajeID, masaje(MasajeID, _, _, _, Tipo), Masajes),
+    format('Masajes del tipo ~w: ~w\n', [Tipo, Masajes]).
+
+% Ver el historial de masajes de un cliente específico
+ver_historial_cliente(ClienteID) :-
+    findall((MasajeID, TerapeutaID, Dia, Hora), registro_masaje(ClienteID, MasajeID, TerapeutaID, Dia, Hora), Historial),
+    format('Historial de masajes del cliente ~w: ~w\n', [ClienteID, Historial]).
+
+% Ver la cantidad total de masajes realizados en el spa
+cantidad_total_masajes :-
+    findall(_, registro_masaje(_, _, _, _, _), TodosLosMasajes),
+    length(TodosLosMasajes, Cantidad),
+    format('Cantidad total de masajes realizados: ~w\n', [Cantidad]).
+
